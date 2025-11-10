@@ -380,7 +380,7 @@ async def delete_reminder(reminder_id: str, current_user: dict = Depends(get_cur
         raise HTTPException(status_code=404, detail="Reminder not found")
     return {"message": "Reminder deleted successfully"}
 
-# AI Message Generation Route (placeholder for now)
+# AI Message Generation Route
 @app.post("/api/messages/generate")
 async def generate_message(message_request: MessageGenerate, current_user: dict = Depends(get_current_user)):
     # Get contact info
@@ -391,32 +391,23 @@ async def generate_message(message_request: MessageGenerate, current_user: dict 
     if not contact:
         raise HTTPException(status_code=404, detail="Contact not found")
     
-    # Placeholder for AI generation (will integrate Gemini later)
-    templates = {
-        "birthday": {
-            "friendly": f"Happy Birthday {contact['name']}! 🎉 Hope you have an amazing day filled with joy and laughter!",
-            "professional": f"Dear {contact['name']}, Wishing you a very happy birthday and continued success in the year ahead.",
-            "warm": f"Happy Birthday dear {contact['name']}! May this special day bring you endless happiness and wonderful memories.",
-            "concise": f"Happy Birthday {contact['name']}! Best wishes! 🎂"
-        },
-        "follow-up": {
-            "friendly": f"Hey {contact['name']}! It's been a while since we last connected. Hope you're doing great! Would love to catch up soon.",
-            "professional": f"Hello {contact['name']}, I wanted to reach out and see how things are going. Looking forward to reconnecting.",
-            "warm": f"Hi {contact['name']}, I've been thinking about you and wanted to check in. Hope all is well with you!",
-            "concise": f"Hi {contact['name']}, let's catch up soon!"
-        },
-        "anniversary": {
-            "friendly": f"Happy Anniversary {contact['name']}! 🎊 Wishing you many more years of happiness together!",
-            "professional": f"Dear {contact['name']}, Congratulations on your anniversary. Wishing you continued happiness.",
-            "warm": f"Happy Anniversary dear {contact['name']}! May your love continue to grow stronger with each passing year.",
-            "concise": f"Happy Anniversary {contact['name']}! 💕"
-        }
-    }
-    
-    occasion = message_request.occasion_type.lower()
-    tone = message_request.tone.lower()
-    
-    message = templates.get(occasion, templates["follow-up"]).get(tone, templates["follow-up"]["friendly"])
+    # Import AI service
+    try:
+        from ai_service import ai_generator
+        
+        # Generate message using AI
+        message = await ai_generator.generate_message(
+            contact_name=contact['name'],
+            occasion_type=message_request.occasion_type,
+            tone=message_request.tone,
+            custom_context=message_request.custom_context,
+            relationship=contact.get('relationship'),
+            notes=contact.get('notes')
+        )
+    except Exception as e:
+        print(f"AI generation failed: {e}")
+        # Fallback to simple template
+        message = f"Hi {contact['name']}! Hope you're doing well. Looking forward to catching up soon!"
     
     # Save generated message
     message_id = str(uuid.uuid4())
