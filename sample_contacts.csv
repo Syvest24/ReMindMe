@@ -1,0 +1,6 @@
+name,email,phone,birthday,relationship,notes
+John Doe,john.doe@example.com,+1-555-0101,1990-05-15,Friend,Met at college
+Jane Smith,jane.smith@example.com,+1-555-0102,1985-08-22,Colleague,Works in marketing
+Bob Johnson,bob.j@example.com,+1-555-0103,1992-03-10,Family,Cousin from Chicago
+Alice Williams,alice.w@example.com,+1-555-0104,1988-11-30,Client,Important client for Q4 project
+Charlie Brown,charlie.b@example.com,+1-555-0105,1995-07-04,Friend,Gym buddy
