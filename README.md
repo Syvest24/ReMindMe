@@ -268,6 +268,35 @@ This app uses **Google Gemini 2.0 Flash** via the Emergent LLM Key for message g
 5. **Check Analytics Weekly** - Stay on top of stale relationships
 6. **Import Regularly** - Keep contacts in sync
 
+## 🌐 Deployment
+
+### Deploy to Vercel (Production)
+
+ReMindMe is production-ready with full Vercel deployment support:
+
+**Quick Deploy:**
+1. Push code to GitHub
+2. Import repository in Vercel
+3. Add environment variables
+4. Deploy!
+
+**Documentation:**
+- 📚 [Complete Deployment Guide](./VERCEL_DEPLOYMENT_GUIDE.md)
+- ⚡ [Quick Start (3 min)](./VERCEL_QUICKSTART.md)
+- ✅ [Deployment Checklist](./DEPLOYMENT_CHECKLIST.md)
+- 📊 [Implementation Summary](./DEPLOYMENT_SUMMARY.md)
+
+**What's included:**
+- ✅ Serverless FastAPI backend
+- ✅ Optimized React frontend
+- ✅ MongoDB Atlas integration
+- ✅ Connection pooling
+- ✅ CORS configuration
+- ✅ Environment variable setup
+- ✅ Automatic scaling
+
+**Live in minutes!** Follow the guides to deploy your own instance.
+
 ## 🐛 Troubleshooting
 
 ### Backend not starting?
