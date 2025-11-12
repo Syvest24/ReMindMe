@@ -282,43 +282,99 @@ Deploy entire app to Render.com:
 
 ### **Issue 1: Build Fails**
 
+**Error:**
 ```
 Error: Module not found
+Error: Command failed: npm install
 ```
 
-**Solution**: Check `package.json` and `requirements.txt` have all dependencies
+**Solutions:**
+- Verify `frontend/package.json` is valid JSON
+- Check `api/requirements.txt` has all Python dependencies
+- Try deleting `node_modules` and reinstalling locally first
+- Check Vercel build logs for specific missing packages
 
-### **Issue 2: API Not Working**
+### **Issue 2: API Not Working (404 Errors)**
 
+**Error:**
 ```
 404 on /api/health
+Failed to fetch from /api/auth/login
 ```
 
-**Solution**: 
-- Check `vercel.json` routes configuration
-- Ensure `api/index.py` exists
-- Check Vercel function logs
+**Solutions:**
+- Verify `api/index.py` exists in repository
+- Check `vercel.json` routes are configured correctly
+- Visit `https://your-project.vercel.app/api/health` directly
+- Check Vercel Functions tab for deployment errors
+- Ensure Python runtime is available (check Vercel logs)
 
 ### **Issue 3: MongoDB Connection Failed**
 
+**Error:**
 ```
-ServerSelectionTimeoutError
+ServerSelectionTimeoutError: connection closed
+pymongo.errors.ServerSelectionTimeoutError
 ```
 
-**Solution**:
-- Verify connection string
-- Check Network Access in MongoDB Atlas
-- Ensure 0.0.0.0/0 is whitelisted
+**Solutions:**
+- Verify connection string format: `mongodb+srv://user:password@cluster.mongodb.net/remindme`
+- Check Network Access in MongoDB Atlas → Add 0.0.0.0/0
+- Ensure password doesn't contain special characters (use alphanumeric)
+- Verify database user has read/write permissions
+- Test connection string locally first
 
 ### **Issue 4: Environment Variables Not Working**
 
+**Error:**
 ```
 KeyError: 'MONGO_URL'
+ValueError: EMERGENT_LLM_KEY not found
 ```
 
-**Solution**:
-- Add variables in Vercel dashboard
-- Redeploy after adding variables
+**Solutions:**
+- Add all variables in Vercel dashboard (Settings → Environment Variables)
+- Ensure variables are set for "Production" environment
+- Redeploy after adding variables (Deployments → Redeploy)
+- Check variable names match exactly (case-sensitive)
+
+### **Issue 5: CORS Errors**
+
+**Error:**
+```
+Access to fetch blocked by CORS policy
+```
+
+**Solutions:**
+- The serverless backend already includes CORS configuration
+- Verify you're accessing from the correct domain
+- Check browser console for specific CORS error details
+- For custom domains, update CORS origins in `api/index.py`
+
+### **Issue 6: Cold Start Performance**
+
+**Issue:** First request takes 3-5 seconds
+
+**Explanation:**
+- This is normal for serverless functions (cold start)
+- Subsequent requests will be faster (~100-500ms)
+- Consider using Vercel Pro for faster cold starts
+- Implement loading states in frontend for better UX
+
+### **Issue 7: AI Message Generation Fails**
+
+**Error:**
+```
+AI generation failed: [error details]
+Fallback to template message
+```
+
+**Solutions:**
+- Verify EMERGENT_LLM_KEY is set correctly in Vercel
+- Check if key has sufficient credits/quota
+- Review Vercel function logs for specific error
+- Test the key locally first
+- App will use fallback templates if AI fails (graceful degradation)
 
 ---
 
