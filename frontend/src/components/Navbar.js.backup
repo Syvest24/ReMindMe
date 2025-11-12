@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { FiHome, FiUsers, FiBell, FiBarChart2, FiLogOut, FiHeart } from 'react-icons/fi';
+import { FiHome, FiUsers, FiBell, FiBarChart2, FiLogOut } from 'react-icons/fi';
 
 const Navbar = ({ user, onLogout }) => {
   const location = useLocation();
@@ -16,26 +15,15 @@ const Navbar = ({ user, onLogout }) => {
   ];
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg shadow-soft z-50 border-b border-neutral-100"
-      data-testid="main-navbar"
-    >
+    <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50" data-testid="main-navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/dashboard" className="flex items-center space-x-2 group">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="w-10 h-10 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center shadow-soft"
-            >
-              <FiHeart className="w-5 h-5 text-white" />
-            </motion.div>
-            <span className="text-xl font-display font-bold text-neutral-800 group-hover:text-primary-600 transition-colors">
-              ReMindMe
-            </span>
+          <Link to="/dashboard" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-xl">R</span>
+            </div>
+            <span className="text-xl font-bold text-gray-800">ReMindMe</span>
           </Link>
 
           {/* Navigation Links */}
@@ -43,20 +31,19 @@ const Navbar = ({ user, onLogout }) => {
             {navItems.map((item) => {
               const Icon = item.icon;
               return (
-                <motion.div key={item.path} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link
-                    to={item.path}
-                    data-testid={`nav-${item.label.toLowerCase()}`}
-                    className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl transition-all duration-200 ${
-                      isActive(item.path)
-                        ? 'bg-primary-50 text-primary-600 shadow-soft'
-                        : 'text-neutral-600 hover:bg-neutral-50'
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span className="font-semibold">{item.label}</span>
-                  </Link>
-                </motion.div>
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  data-testid={`nav-${item.label.toLowerCase()}`}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    isActive(item.path)
+                      ? 'bg-indigo-50 text-indigo-600'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
               );
             })}
           </div>
@@ -67,16 +54,14 @@ const Navbar = ({ user, onLogout }) => {
               <p className="text-sm font-medium text-gray-800">{user?.name}</p>
               <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={onLogout}
               data-testid="logout-button"
-              className="flex items-center space-x-2 px-4 py-2.5 text-neutral-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200"
+              className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             >
               <FiLogOut className="w-5 h-5" />
-              <span className="hidden sm:inline font-medium">Logout</span>
-            </motion.button>
+              <span className="hidden sm:inline">Logout</span>
+            </button>
           </div>
         </div>
       </div>
@@ -101,7 +86,7 @@ const Navbar = ({ user, onLogout }) => {
           })}
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 
