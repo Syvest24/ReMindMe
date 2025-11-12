@@ -184,88 +184,6 @@ Expected response:
 
 ---
 
-### **STEP 6: Deploy to Vercel**
-
-#### **Option A: Deploy via Vercel Dashboard (Recommended)**
-
-1. **Go to**: https://vercel.com/
-2. **Sign in** with GitHub
-3. **Click**: "Add New Project"
-4. **Import** your repository: `Syvest24/ReMindMe`
-5. **Configure Project**:
-   - Framework Preset: `Create React App`
-   - Root Directory: `./` (leave as default)
-   - Build Command: `cd frontend && yarn build`
-   - Output Directory: `frontend/build`
-6. **Add Environment Variables**:
-   - `MONGO_URL`: Your MongoDB Atlas connection string
-   - `JWT_SECRET_KEY`: Generate random string (use: https://randomkeygen.com/)
-   - `JWT_ALGORITHM`: `HS256`
-   - `JWT_EXPIRATION_MINUTES`: `43200`
-   - `EMERGENT_LLM_KEY`: `sk-emergent-bCb63Be0e14FaE71aE`
-   - `GOOGLE_CLIENT_ID`: (optional, for OAuth)
-   - `GOOGLE_CLIENT_SECRET`: (optional, for OAuth)
-   - `SMTP_HOST`: (optional, for email)
-   - `SMTP_PORT`: (optional)
-   - `SMTP_USER`: (optional)
-   - `SMTP_PASSWORD`: (optional)
-7. **Click**: "Deploy"
-
-#### **Option B: Deploy via Vercel CLI**
-
-```bash
-# Install Vercel CLI
-npm install -g vercel
-
-# Login to Vercel
-vercel login
-
-# Deploy from project root
-cd /app
-vercel
-
-# Follow prompts:
-# - Set up and deploy? Yes
-# - Which scope? Your account
-# - Link to existing project? No
-# - Project name? remindme
-# - In which directory is your code? ./
-# - Want to override settings? Yes
-# - Build command? cd frontend && yarn build
-# - Output directory? frontend/build
-
-# Set environment variables
-vercel env add MONGO_URL
-vercel env add JWT_SECRET_KEY
-vercel env add EMERGENT_LLM_KEY
-
-# Deploy to production
-vercel --prod
-```
-
----
-
-### **STEP 7: Post-Deployment Configuration**
-
-#### **A. Update Frontend Environment**
-
-After deployment, update frontend to use Vercel URL:
-
-```env
-# In Vercel dashboard, add environment variable:
-REACT_APP_BACKEND_URL=https://your-project.vercel.app/api
-```
-
-#### **B. Test Deployment**
-
-1. Visit your Vercel URL: `https://your-project.vercel.app`
-2. Test login/signup
-3. Test contact creation
-4. Test AI message generation
-5. Check browser console for errors
-
----
-
 ## 🚨 **Important Notes**
 
 ### **1. Serverless Limitations**
@@ -275,42 +193,24 @@ Vercel serverless functions have:
 - **50 MB size limit**
 - **Cold starts** (first request may be slow)
 
-### **2. MongoDB Connection Pooling**
+The backend code in `/app/api/index.py` has been optimized for serverless with:
+- ✅ MongoDB connection pooling (singleton pattern)
+- ✅ Lazy initialization of collections
+- ✅ Proper timeout settings
 
-For serverless, use connection pooling:
-```python
-from pymongo import MongoClient
+### **2. CORS Configuration**
 
-# Create singleton connection
-_client = None
+The serverless backend already includes CORS for:
+- ✅ All Vercel domains (`https://*.vercel.app`)
+- ✅ Localhost for development (`http://localhost:3000`)
+- ✅ Wildcard for development (restrict in production)
 
-def get_database():
-    global _client
-    if _client is None:
-        _client = MongoClient(
-            MONGO_URL,
-            maxPoolSize=10,
-            minPoolSize=1,
-            maxIdleTimeMS=45000
-        )
-    return _client.get_database()
-```
+### **3. Environment Variables**
 
-### **3. CORS Configuration**
-
-Update CORS to allow Vercel domain:
-```python
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "https://your-project.vercel.app",
-        "http://localhost:3000"  # for local dev
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-```
+All sensitive data should be stored as environment variables in Vercel:
+- ✅ Database credentials (MONGO_URL)
+- ✅ JWT secrets (JWT_SECRET_KEY)
+- ✅ API keys (EMERGENT_LLM_KEY)
 
 ---
 
