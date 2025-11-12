@@ -1,0 +1,31 @@
+# Ignore backend directory (use api/ for serverless)
+backend/__pycache__
+backend/*.pyc
+
+# Ignore node_modules (will be installed during build)
+frontend/node_modules
+
+# Ignore build artifacts
+frontend/build
+
+# Ignore git
+.git
+.gitignore
+
+# Ignore local env files (use Vercel env vars instead)
+backend/.env
+
+# Ignore logs
+*.log
+*.err.log
+*.out.log
+
+# Ignore test files
+*.test.js
+*.test.py
+
+# Ignore documentation
+README.md
+TESTING_GUIDE.md
+DEMO_CREDENTIALS.md
+LOGIN_INFO.txt
