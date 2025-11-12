@@ -256,16 +256,25 @@ Deploy entire app to Render.com:
 
 ## ✅ **Checklist Before Deployment**
 
+**Infrastructure:**
 - [ ] MongoDB Atlas cluster created
-- [ ] Connection string obtained
-- [ ] Environment variables ready
-- [ ] vercel.json created
-- [ ] api/index.py created
-- [ ] api/requirements.txt created
-- [ ] Frontend .env updated
-- [ ] Code pushed to GitHub
+- [ ] MongoDB connection string obtained
+- [ ] JWT secret key generated
 - [ ] Vercel account created
+
+**Code (Already Done):**
+- ✅ vercel.json created
+- ✅ api/index.py created (serverless backend)
+- ✅ api/requirements.txt created
+- ✅ MongoDB connection pooling configured
+- ✅ CORS configured for Vercel
+
+**Deployment:**
+- [ ] All code changes committed
+- [ ] Code pushed to GitHub
 - [ ] Repository connected to Vercel
+- [ ] Environment variables added in Vercel dashboard
+- [ ] Deployment triggered
 
 ---
 
