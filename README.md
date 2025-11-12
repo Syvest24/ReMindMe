@@ -37,15 +37,40 @@ A powerful AI-powered relationship manager that helps you maintain meaningful co
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### For Local Development
+
+**Prerequisites:**
 - Python 3.9+
 - Node.js 16+
 - MongoDB (configured and running)
 - Yarn package manager
 
-### Installation
-
+**Installation:**
 The application is already set up and running! Both backend and frontend services are managed by supervisor.
+
+### For Production Deployment
+
+**Deploy to Vercel (Recommended):**
+
+ReMindMe is ready for instant deployment to Vercel! All configuration files have been created.
+
+📚 **Quick Start:** See [VERCEL_QUICKSTART.md](./VERCEL_QUICKSTART.md) for a 3-minute deployment guide.
+
+📋 **Detailed Guide:** See [VERCEL_DEPLOYMENT_GUIDE.md](./VERCEL_DEPLOYMENT_GUIDE.md) for comprehensive instructions.
+
+✅ **Checklist:** Use [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) for step-by-step verification.
+
+**What's needed for deployment:**
+- Vercel account (free)
+- MongoDB Atlas connection string
+- JWT secret key
+- Your GitHub repository
+
+**Files ready for deployment:**
+- ✅ `/api/index.py` - Serverless backend
+- ✅ `/api/requirements.txt` - Dependencies
+- ✅ `/vercel.json` - Configuration
+- ✅ Complete documentation
 
 ### Default Configuration
 
