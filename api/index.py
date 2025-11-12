@@ -405,7 +405,7 @@ async def get_upcoming_reminders(days: int = 30, current_user: dict = Depends(ge
                 reminder['contact_email'] = contact.get('email', '') if contact else ''
                 reminder['days_until'] = (reminder_date - today).days
                 upcoming.append(reminder)
-        except:
+        except Exception:
             continue
     
     upcoming.sort(key=lambda x: x.get('days_until', 999))
