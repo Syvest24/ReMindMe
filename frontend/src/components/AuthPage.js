@@ -45,38 +45,89 @@ const AuthPage = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 px-4">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-accent-50 to-primary-100 px-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <motion.div
+        className="absolute top-20 left-10 w-72 h-72 bg-primary-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+        animate={{
+          x: [0, 100, 0],
+          y: [0, -100, 0],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute bottom-20 right-10 w-72 h-72 bg-accent-200 rounded-full mix-blend-multiply filter blur-xl opacity-70"
+        animate={{
+          x: [0, -100, 0],
+          y: [0, 100, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md w-full relative z-10"
+      >
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl mb-4">
-            <span className="text-white font-bold text-3xl">R</span>
-          </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">ReMindMe</h1>
-          <p className="text-gray-600">Never forget important connections</p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-center mb-8"
+        >
+          <motion.div
+            whileHover={{ scale: 1.05, rotate: 5 }}
+            className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-500 to-accent-500 rounded-3xl mb-4 shadow-glow"
+          >
+            <FiHeart className="w-10 h-10 text-white" />
+          </motion.div>
+          <h1 className="text-4xl font-display font-bold text-neutral-900 mb-2">
+            ReMindMe
+          </h1>
+          <p className="text-neutral-600 text-lg">Never forget important connections</p>
+        </motion.div>
 
         {/* Auth Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8" data-testid="auth-form">
-          <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
-            <button
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-soft-lg p-8 border border-white/20"
+          data-testid="auth-form"
+        >
+          <div className="flex mb-6 bg-neutral-100 rounded-xl p-1.5">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setIsLogin(true)}
               data-testid="login-tab"
-              className={`flex-1 py-2 rounded-md font-medium transition-colors ${
-                isLogin ? 'bg-white text-indigo-600 shadow' : 'text-gray-600'
+              className={`flex-1 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                isLogin ? 'bg-white text-primary-600 shadow-soft' : 'text-neutral-600'
               }`}
             >
               Login
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setIsLogin(false)}
               data-testid="signup-tab"
-              className={`flex-1 py-2 rounded-md font-medium transition-colors ${
-                !isLogin ? 'bg-white text-indigo-600 shadow' : 'text-gray-600'
+              className={`flex-1 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                !isLogin ? 'bg-white text-primary-600 shadow-soft' : 'text-neutral-600'
               }`}
             >
               Sign Up
-            </button>
+            </motion.button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -94,7 +145,7 @@ const AuthPage = ({ onLogin }) => {
                     value={formData.name}
                     onChange={handleChange}
                     required={!isLogin}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="input-field pl-10"
                     placeholder="John Doe"
                   />
                 </div>
@@ -114,7 +165,7 @@ const AuthPage = ({ onLogin }) => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="input-field pl-10"
                   placeholder="you@example.com"
                 />
               </div>
@@ -133,20 +184,30 @@ const AuthPage = ({ onLogin }) => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="input-field pl-10"
                   placeholder="••••••••"
                 />
               </div>
             </div>
 
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
               data-testid="auth-submit-button"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-indigo-600 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-primary-500 to-accent-500 text-white py-3.5 rounded-xl font-semibold shadow-soft hover:shadow-soft-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Create Account')}
-            </button>
+              {loading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Please wait...
+                </span>
+              ) : (isLogin ? 'Login' : 'Create Account')}
+            </motion.button>
           </form>
 
           <div className="mt-6">
@@ -172,8 +233,8 @@ const AuthPage = ({ onLogin }) => {
               Google OAuth (Add credentials)
             </button>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
