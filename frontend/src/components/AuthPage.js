@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 import { authAPI } from '../utils/api';
-import { FiMail, FiLock, FiUser } from 'react-icons/fi';
+import { FiMail, FiLock, FiUser, FiHeart } from 'react-icons/fi';
 
 const AuthPage = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
